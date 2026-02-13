@@ -1,119 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generative AI Assistant with Hugging Face</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Futuristic AI UI Replica</title>
+  <style>
+    :root {
+      --glass: rgba(32, 44, 53, 0.58);
+      --glass-border: rgba(162, 205, 225, 0.35);
+      --text: #ecf5f8;
+      --muted: rgba(228, 244, 252, 0.88);
+      --accent: #5cecff;
+    }
 
-        .container {
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            width: 400px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        h1 {
-            margin-top: 0;
-            color: #333;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", "SF Pro Text", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 420px at 18% 17%, rgba(129, 247, 255, 0.34), transparent 58%),
+        radial-gradient(1000px 500px at 67% 50%, rgba(30, 198, 232, 0.26), transparent 64%),
+        radial-gradient(80px 80px at 4% 80%, rgba(255, 127, 62, 0.75), transparent 55%),
+        radial-gradient(100px 100px at 53% 66%, rgba(33, 185, 219, 0.5), transparent 60%),
+        linear-gradient(120deg, #031016 0%, #071f28 28%, #0c2832 100%);
+      overflow: hidden;
+      padding: 24px;
+    }
 
-        textarea {
-            width: 100%;
-            height: 80px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: none;
-        }
+    .scene {
+      width: min(100%, 1100px);
+      aspect-ratio: 2.14 / 1;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(200px 200px at 83% 8%, rgba(90, 120, 152, 0.44), transparent 70%),
+        linear-gradient(to right, rgba(9, 23, 30, 0.58), rgba(10, 30, 40, 0.55)),
+        repeating-linear-gradient(110deg, rgba(178, 244, 255, 0.04) 0 16px, transparent 16px 32px);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.5);
+    }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    .glow-dot {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(0.2px);
+      opacity: 0.9;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    .dot-1 { width: 38px; height: 38px; top: 36px; left: 20px; background: rgba(206, 255, 255, 0.74); box-shadow: 0 0 60px rgba(167, 255, 255, 0.6);}
+    .dot-2 { width: 28px; height: 28px; bottom: 78px; left: 44px; background: rgba(255, 132, 71, 0.82); box-shadow: 0 0 48px rgba(255, 118, 64, 0.74);}
+    .dot-3 { width: 80px; height: 80px; bottom: 45px; left: 360px; background: rgba(44, 204, 234, 0.5); filter: blur(5px); }
 
-        #response {
-            margin-top: 20px;
-        }
+    .dash {
+      width: 82px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(113, 245, 255, 0.9), rgba(84, 223, 250, 0.72));
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 28px rgba(104, 238, 255, 0.72);
+    }
 
-        #response h2 {
-            color: #555;
-        }
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      position: absolute;
+      top: 66px;
+      left: 84px;
+      right: -40px;
+      align-items: center;
+    }
 
-        #response p {
-            margin: 5px 0;
-            color: #333;
-        }
-    </style>
+    .pill,
+    .circle-btn,
+    .panel {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: linear-gradient(165deg, rgba(63, 85, 98, 0.38), rgba(35, 48, 59, 0.56));
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        inset 0 1px 0 rgba(210, 242, 255, 0.18),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.26),
+        0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .circle-btn {
+      width: 94px;
+      height: 94px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 58px;
+      line-height: 0;
+      color: rgba(240, 249, 255, 0.92);
+      flex: 0 0 auto;
+    }
+
+    .pill {
+      height: 86px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      padding: 0 34px;
+      gap: 18px;
+      min-width: 340px;
+      color: var(--muted);
+      font-size: 45px;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      display: inline-block;
+      flex: 0 0 auto;
+      color: rgba(237, 247, 252, 0.95);
+    }
+
+    .panel {
+      position: absolute;
+      left: 84px;
+      right: 190px;
+      top: 175px;
+      height: 204px;
+      border-radius: 44px;
+      padding: 34px 34px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .search-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 49px;
+      color: rgba(238, 247, 251, 0.92);
+      letter-spacing: 0.2px;
+      margin-right: 10px;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .mini-group {
+      display: flex;
+      gap: 14px;
+    }
+
+    .mini-btn {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: rgba(104, 126, 139, 0.28);
+      border: 1px solid rgba(167, 206, 224, 0.2);
+      display: grid;
+      place-items: center;
+      color: rgba(239, 249, 255, 0.95);
+    }
+
+    .plan {
+      min-width: 224px;
+      height: 88px;
+      border-radius: 46px;
+      background: rgba(45, 57, 67, 0.45);
+      border: 1px solid rgba(173, 208, 223, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 48px;
+      color: rgba(233, 245, 251, 0.9);
+      padding: 0 24px;
+    }
+
+    @media (max-width: 980px) {
+      .scene { aspect-ratio: auto; min-height: 540px; }
+      .pill { font-size: 32px; min-width: auto; }
+      .search-row { font-size: 34px; }
+      .panel { right: 44px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Generative AI Assistant</h1>
+  <main class="scene" aria-label="Glassmorphism assistant interface">
+    <div class="glow-dot dot-1"></div>
+    <div class="glow-dot dot-2"></div>
+    <div class="glow-dot dot-3"></div>
 
-        <textarea id="query" placeholder="Ask me anything..."></textarea>
-        <button id="submit-btn">Submit</button>
+    <div class="dash"></div>
 
-        <div id="response">
-            <h2>Response</h2>
-            <p id="generated-response"></p>
+    <section class="toolbar">
+      <div class="circle-btn">+</div>
+
+      <div class="pill">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+          <path d="M9 9h6M9 12h6M9 15h4"></path>
+          <rect x="7" y="2" width="10" height="3" rx="1"></rect>
+        </svg>
+        <span>Analyze Docs</span>
+      </div>
+
+      <div class="pill" style="min-width: 360px;">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+          <path d="M9 8l7 4-7 4V8z"></path>
+        </svg>
+        <span>Animate Photo</span>
+      </div>
+
+      <div class="pill" style="min-width: 220px; opacity: 0.75;">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 17c2-5 4-6 7-6s5 1 9 6"></path>
+          <circle cx="7" cy="7" r="2"></circle>
+          <circle cx="15" cy="6" r="2"></circle>
+        </svg>
+        <span>Edit</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="search-row">
+        <span>Search or ask anything</span>
+        <svg class="icon" style="width:45px;height:45px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 1 1-14 0v-2"></path>
+          <path d="M12 19v2"></path>
+        </svg>
+      </div>
+
+      <div class="actions">
+        <div class="mini-group">
+          <div class="mini-btn" aria-label="add">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </div>
+          <div class="mini-btn" aria-label="camera">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-2h4l2 2h4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+          </div>
+          <div class="mini-btn" aria-label="image add">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 16l5-5 4 4 3-3 6 6"></path><path d="M16 7v4M14 9h4"></path></svg>
+          </div>
         </div>
-    </div>
 
-    <script>
-        // Function to call the Hugging Face API for text generation
-        async function queryHuggingFaceAPI(prompt) {
-            const API_URL = 'https://api-inference.huggingface.co/models/gpt3';  // You can change this to other models like 'gpt-3', 't5', etc.
-            const API_TOKEN = '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';  // Replace with your Hugging Face API token
-
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ inputs: prompt })
-            });
-            
-            const data = await response.json();
-            return data[0]?.generated_text || "Sorry, I couldn't generate a response.";
-        }
-
-        // Handle form submission (generate AI response)
-        document.getElementById('submit-btn').addEventListener('click', async () => {
-            const query = document.getElementById('query').value;
-
-            if (!query) {
-                alert("Please enter a query.");
-                return;
-            }
-
-            // Query Hugging Face API and generate a response
-            const generatedResponse = await queryHuggingFaceAPI(query);
-
-            // Display the response
-            document.getElementById('generated-response').innerText = generatedResponse;
-        });
-    </script>
+        <div class="plan">
+          <span>Plus</span>
+          <svg class="icon" style="width:32px;height:32px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
